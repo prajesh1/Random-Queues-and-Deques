@@ -34,6 +34,7 @@ public class Deque<Item> implements Iterable<Item>
     node.next = head;
     head.previous = node;
     head = temp;
+    size = size + 1;
   }
   public void addLast(Item item)           // add the item to the end
   {
@@ -45,6 +46,7 @@ public class Deque<Item> implements Iterable<Item>
     tail.next = node;
     node.previous = tail;
     tail = temp;    
+    size = size + 1;
   }
   public Item removeFirst()                // remove and return the item from the front
   {
@@ -53,6 +55,7 @@ public class Deque<Item> implements Iterable<Item>
     Item first = head.item;
     head.next.previous = null;
     head = head.next;
+    size = size -1;
     return first;
   }
   public Item removeLast()                 // remove and return the item from the end
@@ -62,6 +65,7 @@ public class Deque<Item> implements Iterable<Item>
     Item last = tail.item;
     tail.previous.next = null;
     tail = tail.previous;
+    size = size -1;
     return last;
   }
   public Iterator<Item> iterator() // return an iterator over items in order from front to end
@@ -93,6 +97,11 @@ public class Deque<Item> implements Iterable<Item>
   }
   public static void main(String[] args)   // unit testing
   {
-    
+    Deque<String> rq = new Deque<String>();
+    int k = Integer.parseInt(args[0]);
+    for(int i=1;i<args.length;i++)
+      rq.addFirst(args[i]);
+    for(int i=0;i<k;i++)
+      System.out.println(rq.removeFirst());
   }
 }
