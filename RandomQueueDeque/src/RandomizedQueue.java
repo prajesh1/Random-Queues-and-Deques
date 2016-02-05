@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
   private Item[] randomQueue;
-  private int size = 0;
+  private int size = 0; //item inserted at size
   private Random random;
    public RandomizedQueue()                 // construct an empty randomized queue
    {
@@ -37,12 +37,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    }
    public Item dequeue()                    // remove and return a random item
    {
+	   if(size()==0)
+		   throw new java.util.NoSuchElementException();
      swap(random.nextInt(size),size-1);
      Item temp = randomQueue[size-1];
      randomQueue[size-1] = null; //to avoid loitering
      size = size -1;
      if(size<randomQueue.length/4)
-       resizingArray(size/2);
+       resizingArray(randomQueue.length/2);
      return temp;
    }
    private void swap(int i,int j)
@@ -53,6 +55,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    }
    public Item sample()                     // return (but do not remove) a random item
    {
+	   if(size()==0)
+		   throw new java.util.NoSuchElementException();
      return randomQueue[random.nextInt(size)];
    }
    public Iterator<Item> iterator()         // return an independent iterator over items in random order
@@ -72,15 +76,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     @Override
     public boolean hasNext()
     {
-      if(size==0)
-        return false;
+      if(pointer<=size-1&&size>0)
+        return true;
       else
-      return true;
+      return false;
     }
 
     @Override
     public Item next()
     {
+    	if(pointer==size)
+    		throw new java.util.NoSuchElementException();
       return randomQueue[pointer++];        
     }
 
@@ -93,6 +99,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    }
    public static void main(String[] args)   // unit testing
    {
-     
+	   RandomizedQueue<Integer> xx = new RandomizedQueue<Integer>();
+	   for(Integer i =0;i<50;i++)
+	   xx.enqueue(i);
+	   for(Integer i =0;i<50;i++)
+		   xx.dequeue();
+	   xx.size();
    }
 }

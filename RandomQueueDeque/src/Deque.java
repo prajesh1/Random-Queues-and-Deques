@@ -30,10 +30,18 @@ public class Deque<Item> implements Iterable<Item>
       throw new  java.lang.NullPointerException();
     Node node = new Node();
     node.item = item;
-    Node temp = head;
+    if(size()==0)
+    {
+    	head = node;
+    	tail = node;
+    }
+    else
+    {
+    
     node.next = head;
     head.previous = node;
-    head = temp;
+    head = node;
+    }
     size = size + 1;
   }
   public void addLast(Item item)           // add the item to the end
@@ -42,10 +50,17 @@ public class Deque<Item> implements Iterable<Item>
       throw new  java.lang.NullPointerException();
     Node node = new Node();
     node.item = item;
-    Node temp = tail;
+    if(size()==0)
+    {
+    	head = node;
+    	tail = node;
+    }
+    else
+    {    
     tail.next = node;
     node.previous = tail;
-    tail = temp;    
+    tail = node;    
+    }
     size = size + 1;
   }
   public Item removeFirst()                // remove and return the item from the front
@@ -53,8 +68,13 @@ public class Deque<Item> implements Iterable<Item>
     if(isEmpty())
       throw new java.util.NoSuchElementException();
     Item first = head.item;
-    head.next.previous = null;
-    head = head.next;
+    if(head.next!=null)
+    	{
+    	head.next.previous = null;
+    	head = head.next;
+    	}
+    else{head=tail=null;} //last item
+    
     size = size -1;
     return first;
   }
@@ -63,8 +83,15 @@ public class Deque<Item> implements Iterable<Item>
     if(isEmpty())
       throw new java.util.NoSuchElementException();
     Item last = tail.item;
-    tail.previous.next = null;
-    tail = tail.previous;
+    if(tail.previous!=null)
+    	{
+    	tail.previous.next = null;
+    	tail = tail.previous;
+    	}
+    else{
+    	head=tail=null;
+    	}
+    
     size = size -1;
     return last;
   }
@@ -77,7 +104,7 @@ public class Deque<Item> implements Iterable<Item>
     Node item = head;
     public boolean hasNext()
     {
-      if(item!=null&&item.next!=null)
+      if(item!=null)
         return true;
       else
         return false;
@@ -97,11 +124,14 @@ public class Deque<Item> implements Iterable<Item>
   }
   public static void main(String[] args)   // unit testing
   {
-    Deque<String> rq = new Deque<String>();
-    int k = Integer.parseInt(args[0]);
-    for(int i=1;i<args.length;i++)
-      rq.addFirst(args[i]);
-    for(int i=0;i<k;i++)
-      System.out.println(rq.removeFirst());
+    Deque<Integer> rq = new Deque<Integer>();
+    for(Integer i=0;i<100;i++)
+      rq.addFirst(i);
+    System.out.println("hi");
+    for(Integer s:rq)
+    	System.out.print(s+" ");
+    System.out.println("hi");
+   for(int i=0;i<100;i++)
+     System.out.print(rq.removeFirst()+" ");
   }
 }
